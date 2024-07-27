@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/tmc/langchaingo/llms"
+	"github.com/yuchou87/rest-agent/pkg/testcase"
 	"os"
 	"testing"
 )
@@ -37,6 +38,11 @@ var (
 		Providers:       []Provider{GoogleProvider, OpenaiProvider, GroqProvider},
 		DefaultProvider: "openai",
 	}
+)
+
+var (
+	//go:embed test_data/openapi.json
+	openApiJsonData string
 )
 
 func Test_GetCompletionFromSinglePrompt(t *testing.T) {
@@ -158,4 +164,31 @@ func Test_GoogleVertexGetCompletion(t *testing.T) {
 	}))
 	result, _ := json.Marshal(&resp)
 	t.Logf("result: %s", string(result))
+}
+
+func Test_SwaggerFileGetCompletion(t *testing.T) {
+	vars := struct {
+		SwaggerFile string
+	}{
+		SwaggerFile: openApiJsonData,
+	}
+	prompt := NewPromptBuilder("test_case_generation_prompt", vars)
+	messages, err := prompt.BuildPrompt()
+	if err != nil {
+		t.Errorf("got a error: %+v", err)
+	}
+	client := NewClient(OpenAIClientName)
+	_ = client.Configure(&OpenaiProvider)
+	resp, _ := client.GetCompletion(context.Background(), messages)
+	result, _ := json.Marshal(&resp)
+	t.Logf("result: %s", string(result))
+
+	var (
+		testCases testcase.TestCases
+	)
+	response := NewStructuredResponse(resp.Choices[0].Content, StructuredResponseCodeTypeJSON, &testCases)
+	if err := response.Parse(); err != nil {
+		t.Errorf("got a error: %+v", err)
+	}
+	t.Logf("result: %v", testCases)
 }
