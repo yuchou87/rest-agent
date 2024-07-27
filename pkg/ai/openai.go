@@ -50,6 +50,7 @@ func (c *OpenAIClient) Configure(config IAIConfig) error {
 	c.embeddingModel = config.GetEmbeddingModel()
 	c.temperature = config.GetTemperature()
 	c.topP = config.GetTopP()
+	c.organizationId = config.GetOrganizationId()
 
 	return nil
 }
