@@ -21,8 +21,10 @@ func TestPromptBuilder_RenderPromptContent(t *testing.T) {
 		PromptName: "test_case_generation_prompt",
 		vars: struct {
 			SwaggerFile string
+			OutputType  string
 		}{
 			SwaggerFile: "test",
+			OutputType:  "yaml",
 		},
 	}
 	content, err := p.RenderPromptContent()
@@ -37,8 +39,10 @@ func TestPromptBuilder_BuildPrompt(t *testing.T) {
 		PromptName: "test_case_generation_prompt",
 		vars: struct {
 			SwaggerFile string
+			OutputType  string
 		}{
 			SwaggerFile: `{"hello": "world"}`,
+			OutputType:  "json",
 		},
 	}
 	message, err := p.BuildPrompt()

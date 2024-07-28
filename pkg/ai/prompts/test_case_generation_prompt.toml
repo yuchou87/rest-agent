@@ -20,9 +20,9 @@ Here is the swagger file that you will be writing tests against`.
 =========
 
 ## Response
-The output must be a JSON object, should be a valid JSON, and nothing else:
+The output must be a {{ .OutputType | upper | trim }} object, should be a valid {{ .OutputType | upper | trim }}, and nothing else:
 Example output:
-```json
+```{{ .OutputType | trim }}
 {
   "test_cases": [
     {

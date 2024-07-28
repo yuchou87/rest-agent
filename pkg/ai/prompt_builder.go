@@ -47,7 +47,8 @@ func (p *PromptBuilder) RenderPromptContent() (string, error) {
 	template.Must(
 		tmpl.Funcs(
 			template.FuncMap{
-				"trim": strings.TrimSpace,
+				"trim":  strings.TrimSpace,
+				"upper": strings.ToUpper,
 			}).
 			Parse(promptContent),
 	)
