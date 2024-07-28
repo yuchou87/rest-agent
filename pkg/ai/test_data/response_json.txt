@@ -1,0 +1,16 @@
+```json
+{
+  "test_cases": [
+    {
+      "test_case_type": "happy path",
+      "test_case_name": "query a pet by name",
+      "request_url": "/pets/name=John",
+      "request_method": "GET",
+      "request_body": "",
+      "request_headers": "",
+      "assert_result": 200,
+      "assert_description": "assert use http status code"
+    }
+  ]
+}
+```

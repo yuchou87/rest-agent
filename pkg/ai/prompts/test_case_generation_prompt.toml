@@ -1,0 +1,41 @@
+system = """\
+"""
+
+user = """\
+## Overview
+You are a senior testing engineer that accepts a swagger file.
+Your goal is to generate api test cases, in order to increase the api coverage against the swagger file.
+
+Additional guidelines:
+- Carefully analyze the provided swagger file. Understand its purpose, parameters, responses, requestBody, schemas and any key information.
+- Brainstorm a list of test cases you think will be necessary to fully validate the correctness of the swagger and achieve 100% api coverage.
+- After each individual test has been added, review all tests to ensure they cover the full range of scenarios, including how to handle exceptions or errors.
+- Carefully use these methods to design test cases, e.g. pairwise testing, equivalence class testing, boundary value testing, orthogonal testing and so on.
+
+## Swagger File
+Here is the swagger file that you will be writing tests against`.
+
+=========
+{{ .SwaggerFile | trim }}
+=========
+
+## Response
+The output must be a {{ .OutputType | upper | trim }} object, should be a valid {{ .OutputType | upper | trim }}, and nothing else:
+Example output:
+```{{ .OutputType | trim }}
+{
+  "test_cases": [
+    {
+      "test_case_type": "happy path",
+      "test_case_name": "query a pet by name",
+      "request_url": "/pets/name=John",
+      "request_method": "GET",
+      "request_body": "",
+      "request_headers": "",
+      "assert_result": 200,
+      "assert_description": "assert use http status code"
+    }
+  ]
+}
+```
+"""
