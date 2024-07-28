@@ -49,6 +49,6 @@ rest-agent generate -f pkg/ai/test_data/openapi.json -t json
 
 ## Roadmap
 
-[x] Add test case generate module
+- [x] Add test case generate module
 
-[ ] Add api test case execution engine
+- [ ] Add api test case execution engine
