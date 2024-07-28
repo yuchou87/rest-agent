@@ -1,4 +1,4 @@
-package testcase
+package models
 
 type TestCase struct {
 	TestCaseType      string `json:"test_case_type" yaml:"test_case_type"`

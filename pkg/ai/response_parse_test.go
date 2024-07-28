@@ -2,7 +2,7 @@ package ai
 
 import (
 	_ "embed"
-	"github.com/yuchou87/rest-agent/pkg/testcase"
+	"github.com/yuchou87/rest-agent/pkg/models"
 	"testing"
 )
 
@@ -45,7 +45,7 @@ func TestStructuredResponse_Parse(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var (
-				testCases testcase.TestCases
+				testCases models.TestCases
 			)
 			s := NewStructuredResponse(tt.args.file, tt.args.codeType, &testCases)
 			if err := s.Parse(); err != nil {

@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/tmc/langchaingo/llms"
-	"github.com/yuchou87/rest-agent/pkg/testcase"
+	"github.com/yuchou87/rest-agent/pkg/models"
 	"os"
 	"testing"
 )
@@ -184,7 +184,7 @@ func Test_SwaggerFileGetCompletion(t *testing.T) {
 	t.Logf("result: %s", string(result))
 
 	var (
-		testCases testcase.TestCases
+		testCases models.TestCases
 	)
 	response := NewStructuredResponse(resp.Choices[0].Content, StructuredResponseCodeTypeJSON, &testCases)
 	if err := response.Parse(); err != nil {
