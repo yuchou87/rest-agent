@@ -2,9 +2,11 @@ package cli
 
 import (
 	"fmt"
-	"github.com/adrg/xdg"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/yuchou87/rest-agent/internal/cli/auth"
+	"github.com/yuchou87/rest-agent/internal/cli/gen"
+	"github.com/yuchou87/rest-agent/pkg/utils"
 	"os"
 	"path/filepath"
 )
@@ -36,12 +38,12 @@ func Execute(v string, c string, d string) {
 }
 
 func init() {
-
+	checkFileAndDir()
 	cobra.OnInitialize(initConfig)
 
-	// TODO: add commands here
-
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", fmt.Sprintf("Default config file (%s/rest-agent/config.yaml)", xdg.ConfigHome))
+	rootCmd.AddCommand(auth.AuthCmd)
+	rootCmd.AddCommand(gen.GenerateCmd)
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", fmt.Sprintf("Default config file (%s)", getConfigFilePath()))
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -50,12 +52,12 @@ func initConfig() {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// the config will belocated under `~/.config/rest-agent/config.yaml` on linux
-		configDir := filepath.Join(xdg.ConfigHome, "rest-agent")
+		// the config will belocated under `~/.config/rest-agent/.config.yaml` on linux
+		configDir := utils.GetConfigDir()
 
 		viper.AddConfigPath(configDir)
 		viper.SetConfigType("yaml")
-		viper.SetConfigName("config")
+		viper.SetConfigName(".config")
 
 		_ = viper.SafeWriteConfig()
 	}
@@ -68,4 +70,18 @@ func initConfig() {
 		_ = 1
 		//	fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
+}
+
+func getConfigFilePath() string {
+	return filepath.Join(utils.GetConfigDir(), ".config.yaml")
+}
+
+func checkFileAndDir() {
+	config := getConfigFilePath()
+	_, err := utils.FileExists(config)
+	cobra.CheckErr(err)
+
+	configDir := filepath.Dir(config)
+	err = utils.EnsureDirExists(configDir)
+	cobra.CheckErr(err)
 }
