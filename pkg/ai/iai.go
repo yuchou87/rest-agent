@@ -6,10 +6,16 @@ import (
 )
 
 var (
-	Backends = map[string]IAI{
+	Clients = map[string]IAI{
 		OpenAIClientName:         &OpenAIClient{},
 		GroqAIClientName:         &GroqAIClient{},
 		GoogleVertexAIClientName: &GoogleVertexAIClient{},
+	}
+
+	Backends = []string{
+		OpenAIClientName,
+		GroqAIClientName,
+		GoogleVertexAIClientName,
 	}
 )
 
@@ -47,7 +53,7 @@ type IAIConfig interface {
 }
 
 func NewClient(provider string) IAI {
-	if client, ok := Backends[provider]; ok {
+	if client, ok := Clients[provider]; ok {
 		return client
 	}
 	// default client
