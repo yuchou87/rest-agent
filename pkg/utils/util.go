@@ -5,12 +5,28 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
+	"github.com/adrg/xdg"
+	"gopkg.in/yaml.v3"
 	"os"
+	"path/filepath"
+	"time"
 )
 
 // CovertToJson converts any type to json string
 func CovertToJson(v any) string {
 	b, _ := json.Marshal(v)
+	return string(b)
+}
+
+// CovertToJsonWithIndent converts any type to json string with indent
+func CovertToJsonWithIndent(v any) string {
+	b, _ := json.MarshalIndent(v, "", "  ")
+	return string(b)
+}
+
+// CoverToYaml converts any type to yaml string
+func CoverToYaml(v any) string {
+	b, _ := yaml.Marshal(v)
 	return string(b)
 }
 
@@ -41,4 +57,14 @@ func EnsureDirExists(dir string) error {
 	}
 
 	return err
+}
+
+// GetConfigDir returns the config directory
+func GetConfigDir() string {
+	return filepath.Join(xdg.ConfigHome, "rest-agent")
+}
+
+// GetDateTime returns the current date and time
+func GetDateTime() string {
+	return time.Now().Format("2006-01-02_15:04:05")
 }
