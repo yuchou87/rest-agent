@@ -62,7 +62,7 @@ func NewClient(provider string) IAI {
 
 type Configuration struct {
 	Providers       []Provider `mapstructure:"providers" yaml:"providers" goconf:"providers"`
-	DefaultProvider string     `mapstructure:"defaultprovider" yaml:"default_provider" goconf:"default_provider"`
+	DefaultProvider string     `mapstructure:"default_provider" yaml:"default_provider" goconf:"default_provider"`
 }
 
 type Provider struct {
